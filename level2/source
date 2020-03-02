@@ -1,1 +1,56 @@
-toto
+int main()
+{
+	char **var_120h @ rbp-0x120
+	int64_t var_114h @ rbp-0x114
+	char *filename @ rbp-0x110
+	char *ptr @ rbp-0xa0
+	char *format @ rbp-0x70
+	size_t var_ch @ rbp-0xc
+	file *stream @ rbp-0x8
+	int argc @ rdi
+	char **argv @ rsi
+
+
+	[...]
+
+	stream = fopen("/home/users/level03/.pass", "r");
+
+	if (stream == NULL)
+	{
+		fwrite("ERROR: failed to open password file\n", 1, 36, STDERR);
+		exit(1);
+	}
+
+	var_ch = fread(ptr, 1, 41, stream)
+	size_t size = strcspn(ptr, "\n");
+	ptr[size - 0xa0] = 0;
+
+	if (var_ch != 41)
+	{
+		fwrite("ERROR: failed to read password file\n", 1, 36, STDERR);
+		fwrite("ERROR: failed to read password file\n", 1, 36, STDERR);
+		exit(1);
+	}
+
+	fclose(stream);
+	puts("===== [ Secure Access System v1.0 ] =====");
+	puts("| You must login to access this system. |");
+	printf(--[ Username: ");
+	fgets(format, 64, STDIN);
+	printf("--[ Password: ");
+	fgets(filename, 64, STDIN);
+
+	size_t size = strcspn(format, "\n");
+
+	rbp[size - 0x110] = 0;
+	puts("*****************************************");
+
+	if (strncmp(, 41) != NULL)
+	{
+			printf(format);
+			puts(" does not have access!");
+			exit(1);
+	}
+	printf("Greetings, %s!\n", format);
+	system("/bin/sh")
+}
