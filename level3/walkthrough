@@ -1,1 +1,25 @@
-toto
+Password:
+322424827
+
+most of jmp go on decrypt(srand())
+we do not want to base our exploit on rand
+so there is another condition for calling decrypt
+
+0x1337d00d - password (integer) must be below 0x15 (21)
+
+the result of this substraction will be powered by two and 0x80489f0 will be addedd
+
+we then jump to this address and go on decrypt
+
+>>> 0x1337d00d
+322424845
+
+322424827
+
+level03@OverRide:~$ cat /tmp/test.sh
+i=322424845
+while true
+do
+	(python -c "print($i)";python -c "print('echo $i > /tmp/pass')") | ~/level03
+	i=$((i-1))
+done

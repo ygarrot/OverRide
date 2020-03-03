@@ -1,1 +1,60 @@
-toto
+decrypt(int_32_t arg_8h)
+{
+	int32_t var_2ch @ ebp-0x2c
+	int32_t var_28h @ ebp-0x28
+	uint32_t var_24h @ ebp-0x24
+
+	int32_t var_1dh @ ebp-0x1d
+	int32_t var_19h @ ebp-0x19
+	int32_t var_15h @ ebp-0x15
+	int32_t var_11h @ ebp-0x11
+
+	int32_t var_dh @ ebp-0xd
+	int32_t canary @ ebp-0xc
+	int32_t arg_8h @ ebp+0x8
+
+	var_1dh = 'Q}|u';
+	var_19h = '`sfg';
+	var_15h = '~sf{';
+	var_11h = '}|a3';
+
+	if (eax == 0)
+		esp += 4;
+
+	len = strlen(var_1dh);
+	for (i = 0; i < len; ++i)
+	{
+		char tmp = var_1dh[len];
+		tmp2 = tmp
+		var_1dh[len] = tmp ^ arg_8h;
+	}
+	if (var_1dh == "Congratulations!")
+	{
+			puts("\nInvalid Password");
+	}
+	else
+	{
+		system("/bin/sh");
+	}
+	__stack_chk_fail();
+}
+
+test(int32_t arg_8h, int32_t arg_ch)
+{
+		arg_ch -= arg_8h
+		if (arg_ch > 21)
+		{
+			arg_ch += 134515184;
+			jmp arg_ch;
+		}
+}
+
+int main()
+{
+		srand(time(NULL));
+		puts("***********************************");
+		puts("*\t\tlevel03\t\t**");
+		puts("***********************************");
+		puts("Password:");
+		test(scanf("%d"), 0x1337d00d)
+	}
