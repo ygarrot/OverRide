@@ -1,1 +1,53 @@
-toto
+
+main()
+{
+	int32_t var_8h @ ebp-0x8
+	pid_t sig @ esp+0x4
+	void*addr @ esp+0x8
+	void*data @ esp+0xc
+	int32_t wstatus @ esp+0x1c
+	char *s @ esp+0x20
+	int32_t var_1ch @ esp+0xa0
+	int32_t var_18h @ esp+0xa4
+	long var_14h @ esp+0xa8
+	pid_t var_10h @ esp+0xac
+
+	var_10h = fork()
+	[...]
+	wstatus = 0;
+	if (var_10h != 0)
+	{
+			prctl(1, 1, 0, 0, 0, 0);
+			ptrace(0, 0, 0, 0);
+			puts("Give me some shellcode, k");
+			gets();
+			return 0;
+	}
+	var_1ch = wait(&wstatus);
+
+after_fork:
+	if (var_1ch < 0) // (var_1ch & 127)
+	{
+		puts("child is exiting...");
+		return 0;
+	}
+	var_18h = var_1ch;
+	eax &= 127
+	++eax;
+	al /= 2;
+	if (al > 0)
+	{
+		puts("child is exiting...");
+		return 0;
+	}
+
+	if (ptrace(3, var_10h, 44, NULL) != 11)
+	{
+		puts("no exec() for you");
+		kill(var_10h);
+		return 0;
+	}
+	goto after_fork;
+
+
+}
