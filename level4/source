@@ -15,7 +15,8 @@ main()
 	pid = fork()
 	[...]
 	wstatus = 0;
-	if (pid != 0)
+
+	if (pid == 0)// if child
 	{
 			//PR_SET_PDEATHSIG = 1, SIGHUP =1
 			prctl(PR_SET_PDEATHSIG, SIGHUP, 0, 0, 0, 0);
