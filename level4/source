@@ -10,15 +10,16 @@ main()
 	int32_t var_1ch @ esp+0xa0
 	int32_t var_18h @ esp+0xa4
 	long var_14h @ esp+0xa8
-	pid_t var_10h @ esp+0xac
+	pid_t pid @ esp+0xac
 
-	var_10h = fork()
+	pid = fork()
 	[...]
 	wstatus = 0;
-	if (var_10h != 0)
+	if (pid != 0)
 	{
-			prctl(1, 1, 0, 0, 0, 0);
-			ptrace(0, 0, 0, 0);
+			//PR_SET_PDEATHSIG = 1, SIGHUP =1
+			prctl(PR_SET_PDEATHSIG, SIGHUP, 0, 0, 0, 0);
+			ptrace(PTRACE_TRACEME, 0, NULL, NULL);
 			puts("Give me some shellcode, k");
 			gets();
 			return 0;
@@ -41,13 +42,11 @@ after_fork:
 		return 0;
 	}
 
-	if (ptrace(3, var_10h, 44, NULL) != 11)
+	if (ptrace(PTRACE_PEEKUSER, pid, 44, NULL) != 11)
 	{
 		puts("no exec() for you");
-		kill(var_10h);
+		kill(pid, SIGKILL); //SIGKILL = 9
 		return 0;
 	}
 	goto after_fork;
-
-
 }
