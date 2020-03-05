@@ -1,1 +1,45 @@
-toto
+auth(char *s1, int3_t arg_ch)
+{
+	strcspn(s1, "\n");
+	s1[strlen(s1)] = 0;
+	size_t size = strnlen(s1, 32);
+	if (size < 5)
+	{
+			return 1;
+	}
+	if (ptrace(0, 1, 0, 0) == -1)
+	{
+		puts("\033[32m.", '-' <repeats 27 times>, ".");
+		puts("\033[31m| !! TAMPERING DETECTED !!  |");
+		puts("\033[32m.", '-' <repeats 27 times>, ".");
+		return 1;
+	}
+
+}
+
+int main()
+{
+	int32_t arg_ch @ ebp+0xc
+	int32_t var_50h @ esp+0x8
+	int32_t size @ esp+0xc
+	FILE *stream @ esp+0x10
+	int32_t var_38h @ esp+0x20
+	int32_t var_2ch @ esp+0x2c
+	int32_t var_28h @ esp+0x30
+	char *s @ esp+0x34
+	int32_t canary @ esp+0x50
+
+	puts("***********************************");
+	puts("*\t\tlevel06\t\t  *");
+	puts("***********************************");
+	printf("-> Enter Login: ");
+	fgets(s, 32, STDIN);
+	puts("***********************************");
+	puts("***** NEW ACCOUNT DETECTED ********");
+	puts("***********************************");
+	printf("-> Enter Serial: ");
+	scanf("%u", size);
+	auth(size);
+	
+
+}
