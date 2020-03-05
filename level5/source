@@ -1,1 +1,21 @@
-toto
+main()
+{
+	int32_t size @ esp+0x4
+	FILE *stream @ esp+0x8
+	int32_t var_80h @ esp+0x1c
+	char *format @ esp+0x28
+	int32_t i @ esp+0x8c
+
+	fgets(format, 100, STDIN);
+
+	for (i = 0 ; i >= strlen(format); ++i )
+	{
+		char tmp = format[i];
+		if (tmp >= 'A' && tmp <= 'Z')
+			c -= 32;
+		format[i] = c;
+	}
+
+	printf(format);
+	exit(0);
+}
