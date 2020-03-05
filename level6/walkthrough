@@ -1,2 +1,4 @@
+Pur reverse, il suffit de recup le hash le 4eme lettre et le mettre dans le scanf
 
-b *0x80487ae
+(python -c 'print("ABCDEFGH")'; python -c 'print("6233825")';cat) | ./level06
+
