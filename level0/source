@@ -1,1 +1,17 @@
-toto
+int main ()
+{
+	int local_1ch;
+
+	puts("***********************************");
+	puts("* \t     -Level00 -\t\t  *");
+	puts("***********************************");
+	printf("Password:");
+	scanf("%d", &local_1ch);
+	if (local_1ch != 0x149c)
+	{
+		printf("\nInvalid Password!");
+		return 1;
+	}
+	puts("\nAuthenticated!");
+	return 0;
+}
