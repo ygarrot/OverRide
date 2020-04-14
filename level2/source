@@ -1,14 +1,10 @@
 int main()
 {
-	char **var_120h @ rbp-0x120
-	int64_t var_114h @ rbp-0x114
-	char *filename @ rbp-0x110
-	char *ptr @ rbp-0xa0
-	char *format @ rbp-0x70
-	size_t var_ch @ rbp-0xc
-	file *stream @ rbp-0x8
-	int argc @ rdi
-	char **argv @ rsi
+	char *filename; // rbp-0x110
+	char *ptr     ; // rbp-0xa0
+	char *format  ; // rbp-0x70
+	size_t var_ch ; // rbp-0xc
+	file *stream  ; // rbp-0x8
 
 
 	[...]
@@ -34,23 +30,26 @@ int main()
 
 	fclose(stream);
 	puts("===== [ Secure Access System v1.0 ] =====");
+	puts("/***************************************\\");
 	puts("| You must login to access this system. |");
+	puts(\\**************************************/);
 	printf(--[ Username: ");
-	fgets(format, 64, STDIN);
+	fgets(format, 100, STDIN);
 	printf("--[ Password: ");
-	fgets(filename, 64, STDIN);
+	fgets(filename, 100, STDIN);
 
 	size_t size = strcspn(format, "\n");
 
 	rbp[size - 0x110] = 0;
 	puts("*****************************************");
 
-	if (strncmp(, 41) != NULL)
+	if (strncmp(filename, TODO, 41) != NULL)
 	{
 			printf(format);
 			puts(" does not have access!");
 			exit(1);
 	}
 	printf("Greetings, %s!\n", format);
-	system("/bin/sh")
+	system("/bin/sh");
+	return 0;
 }
