@@ -1,3 +1,4 @@
+
 int clear_stdin()
 {
 	char c = getchar()
@@ -41,7 +42,7 @@ int store_number(int arg)
 
 	count = *local_ch;
 	data = (0xaaaaaaab * count) >> 1;
-	edx = (data * 3) - count
+	edx = (data * 3) - count;
 	
 	if (edx == 0 || (local_10h >> 24) == 183)
 	{
