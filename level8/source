@@ -1,4 +1,4 @@
-log_wrapper()
+log_wrapper(arg1, arg2)
 {
 	int local_128h;   //@ rbp-0x128 
 	int local_120h;   //@ rbp-0x120 
@@ -12,9 +12,15 @@ log_wrapper()
 	*local_8h   = qword fs:[0x28];
 
 	strcpy(local_110h, local_120h);
+
+	len1 = strlen(arg1);
+	[...]
+	len2 = strlen(arg2);
+
+	snprintf(s, len1 + len2,  arg1, arg2);
 	rbp[- 0x130] = -1;
-	strcspn();
-	fprintf(stream, "LOG %s\n", NULL)
+	strcspn(s, '\n');
+	fprintf(stream, "LOG %s\n", s, NULL)
 }
 
 int main()
@@ -65,6 +71,7 @@ int main()
 		write(fd, &c, 1);
 	}
 
+	log_wrapper(rb[-0x88], "Finished back up: ");
 	fclose(stream);
 	close(fd);
 }
