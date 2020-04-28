@@ -1,1 +1,66 @@
-toto
+log_wrapper()
+{
+	int local_128h;   //@ rbp-0x128 
+	int local_120h;   //@ rbp-0x120 
+	int local_118h;   //@ rbp-0x118 
+	int local_110h;   //@ rbp-0x110 
+	int local_8h  ;   //@ rbp-0x8     
+
+	*local_118h = arg1;
+	*local_120h = arg2;
+	*local_128h = arg3;
+	*local_8h   = qword fs:[0x28];
+
+	strcpy(local_110h, local_120h);
+	rbp[- 0x130] = -1;
+	strcspn();
+	fprintf(stream, "LOG %s\n", NULL)
+}
+
+int main()
+{
+	int local_a8h;      //@ rbp-0xa8
+	int local_a0h;      //@ rbp-0xa0
+	int local_94h;      //@ rbp-0x94
+	int local_88h;      //@ rbp-0x88
+	int local_80h;      //@ rbp-0x80
+	int local_78h;      //@ rbp-0x78
+	int local_71h;      //@ rbp-0x71
+	int local_70h;      //@ rbp-0x70
+	int local_8h ;      //@ rbp-0x8  
+
+	*local_94h = edi;
+	*local_a0h = rsi;
+	*local_8h  = eax;
+	*local_71h  = 0xff;
+	*local_78h  = 0xffffffff;
+
+	if (*local_94h == 2):
+	{
+		printf("Usage: %s filename\n")
+	}
+	if (fopen("./backups/.log", 'r') != 0)
+	{
+		printf("ERROR: Failed to open %s\n", "./backups/.log")
+		exit(1);
+	}
+
+	log_wrapper(rb[-0x88], "Starting back up: ");
+
+	if (stream = fopen(argv[1] 'r'))
+	{
+		printf("ERROR: Failed to open %s\n");
+		exit(1);
+	}
+	file = strncat("./backups", argv[1]);
+	if (fd = open(file, 0xc1, 0x1b0) <= 0)
+	{
+		printf("ERROR: Failed to open %s%s\n", "./backups", argv[1])
+	}
+	while ( (c = fgetc(stream)) != -1)
+	{
+		write(fd, &c, 1);
+	}
+	fclose(stream);
+	close(fd);
+}

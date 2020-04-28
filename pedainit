@@ -1,0 +1,4 @@
+source /tmp/peda/peda.py
+b main
+r
+
