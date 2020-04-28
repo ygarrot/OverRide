@@ -29,16 +29,16 @@ int main()
 	int local_70h;      //@ rbp-0x70
 	int local_8h ;      //@ rbp-0x8  
 
-	*local_94h = edi;
 	*local_a0h = rsi;
 	*local_8h  = eax;
 	*local_71h  = 0xff;
 	*local_78h  = 0xffffffff;
 
-	if (*local_94h == 2):
+	if (argc != 2):
 	{
 		printf("Usage: %s filename\n")
 	}
+
 	if (fopen("./backups/.log", 'r') != 0)
 	{
 		printf("ERROR: Failed to open %s\n", "./backups/.log")
@@ -49,18 +49,22 @@ int main()
 
 	if (stream = fopen(argv[1] 'r'))
 	{
-		printf("ERROR: Failed to open %s\n");
+		printf("ERROR: Failed to open %s\n", argv[1]);
 		exit(1);
 	}
+
 	file = strncat("./backups", argv[1]);
+
 	if (fd = open(file, 0xc1, 0x1b0) <= 0)
 	{
 		printf("ERROR: Failed to open %s%s\n", "./backups", argv[1])
 	}
+
 	while ( (c = fgetc(stream)) != -1)
 	{
 		write(fd, &c, 1);
 	}
+
 	fclose(stream);
 	close(fd);
 }
