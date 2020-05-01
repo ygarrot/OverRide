@@ -1,17 +1,21 @@
-int main ()
+#include <stdio.h>
+
+int main(int argc, const char *argv[])
 {
-	int local_1ch;
+	int	password;
 
 	puts("***********************************");
 	puts("* \t     -Level00 -\t\t  *");
 	puts("***********************************");
 	printf("Password:");
-	scanf("%d", &local_1ch);
-	if (local_1ch != 0x149c)
+	scanf("%d", &password);
+
+	if ( password != 5276 )
 	{
 		printf("\nInvalid Password!");
 		return 1;
 	}
 	puts("\nAuthenticated!");
+
 	return 0;
 }

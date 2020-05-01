@@ -1,53 +1,48 @@
-main()
+#include <sys/types.h>
+#include <sys/wait.h>
+#include <sys/ptrace.h>
+#include <sys/prctl.h>
+#include <signal.h>
+#include <string.h>
+#include <unistd.h>
+#include <stdio.h>
+#include <string.h>
+
+int main(int argc, const char *argv[])
 {
-	int32_t var_8h  ; // ebp-0x8
-	int32_t wstatus ; // esp+0x1c
-	int32_t var_1ch ; // esp+0xa0
-	int32_t var_18h ; // esp+0xa4
-	long    var_14h ; // esp+0xa8
+	int32_t	wstatus; // esp+0x1c
+	pid_t	pid;     // esp+0xac
+	char	s[128];  // esp+0x20 Not sure here
 
-	void    *addr   ; // esp+0x8
-	void    *data   ; // esp+0xc
-	pid_t   sig     ; // esp+0x4
-	pid_t   pid     ; // esp+0xac
-	char    *s      ; // esp+0x20
-
-	pid = fork()
+	pid = fork();
 	bzero(&s, sizeof(s));
 	wstatus = 0;
 
-	if ( pid == 0 )     // if child
+	if ( pid == 0 ) // if child
 	{
-			//PR_SET_PDEATHSIG = 1, SIGHUP = 1
-			prctl(PR_SET_PDEATHSIG, SIGHUP, 0, 0, 0, 0);
+			//PR_ST_PDEATHSIG = 1, SIGHUP = 1
+			prctl(PR_SET_PDEATHSIG, 0, SIGHUP, 0, 0, 0);
 			ptrace(PTRACE_TRACEME, 0, NULL, NULL);
 			puts("Give me some shellcode, k");
-			gets(s, 32, STDIN);
+			gets(s);
 			return 0;
 	}
-	var_1ch = wait(&wstatus);
+	wait(&wstatus);
 
-after_fork:
-	if ( var_1ch & 127 ) // if ( var_1ch < 0 )
+	while ( 1 )
 	{
-		puts("child is exiting...");
-		return 0;
-	}
-	var_18h = var_1ch;
-	eax &= 127
-	++eax;
-	al /= 2;
-	if ( al > 0 )
-	{
-		puts("child is exiting...");
-		return 0;
-	}
+		if ( wstatus < 0 || ( ( ( wstatus & 127 ) + 1 ) / 2) <= 0 )
+		{
+			puts("child is exiting...");
+			return 0;
+		}
 
-	if (ptrace(PTRACE_PEEKUSER, pid, 44, NULL) != 11)
-	{
-		puts("no exec() for you");
-		kill(pid, SIGKILL); //SIGKILL = 9
-		return 0;
+		if ( ptrace(PTRACE_PEEKUSER, pid, 44, NULL) != 11 )
+		{
+			puts("no exec() for you");
+			kill(pid, SIGKILL); //SIGKILL = 9
+			return 0;
+		}
 	}
-	goto after_fork;
+	return 0;
 }

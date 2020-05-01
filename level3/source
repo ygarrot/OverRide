@@ -1,57 +1,45 @@
-decrypt(int_32_t arg_8h)
+#include <stdio.h>
+#include <time.h>
+#include <stdlib.h>
+#include <string.h>
+
+void decrypt(int arg_8h)
 {
-	int32_t var_1dh; // ebp-0x1d
-	int32_t var_19h; // ebp-0x19
-	int32_t var_15h; // ebp-0x15
-	int32_t var_11h; // ebp-0x11
-	int32_t var_dh ; // ebp-0xd
-	int32_t canary ; // ebp-0xc
-
-	canary  = gs:[0x14];
-	var_1dh = 'Q}|u';
-	var_19h = '`sfg';
-	var_15h = '~sf{';
-	var_11h = '}|a3';
-
-	if (eax == 0)
-		esp += 4;
+	char *var_1dh = "Q}|u"  "`sfg" "~sf{" "}|a3";
+	int len;
 
 	len = strlen(var_1dh);
-	for ( i = 0; i < len; ++i )
-	{
-		char tmp = var_1dh[len];
-		tmp2 = tmp
-		var_1dh[len] = tmp ^ arg_8h;
-	}
+	for ( int i = 0; i < len; ++i )
+		var_1dh[i] ^= arg_8h;
 
 	if ( var_1dh == "Congratulations!" )
-			puts("\nInvalid Password");
+		puts("\nInvalid Password");
 	else
 		system("/bin/sh");
-
-	if ( canary ^ gs:[0x14] )
-		__stack_chk_fail();
 }
 
-test(int32_t arg_8h, int32_t arg_ch)
+void test(int arg_8h, int arg_ch)
 {
-	arg_ch -= arg_8h
+	arg_ch -= arg_8h;
+
 	if ( arg_ch > 21 )
 	{
-		arg_ch += 134515184;
-		jmp arg_ch;
+		arg_ch = (arg_ch << 2) + 134515184;
+		goto *arg_ch;
 	}
 }
 
-int main()
+int main(int argc, const char *argv[])
 {
-	srand(time(NULL));
+	int	val;
 
+	srand(time(NULL));
 	puts("***********************************");
 	puts("*\t\tlevel03\t\t**");
 	puts("***********************************");
 	puts("Password:");
 
-	test(scanf("%d"), 0x1337d00d);
+	scanf("%d", &val);
+	test(val, 0x1337d00d);
 	return 0;
 }

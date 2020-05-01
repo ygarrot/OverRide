@@ -1,21 +1,23 @@
-main()
+#include <sys/types.h>
+#include <unistd.h>
+#include <stdio.h>
+#include <string.h>
+#include <stdlib.h>
+
+int main(int argc, const char *argv[])
 {
-	int32_t size @ esp+0x4
-	FILE *stream @ esp+0x8
-	int32_t var_80h @ esp+0x1c
-	char *format @ esp+0x28
-	int32_t i @ esp+0x8c
+	char	format[100];
 
-	fgets(format, 100, STDIN);
+	fgets(format, 100, stdin);
 
-	for (i = 0 ; i >= strlen(format); ++i )
+	for (int i = 0 ; i >= strlen(format); ++i )
 	{
-		char tmp = format[i];
-		if (tmp >= 'A' && tmp <= 'Z')
-			c -= 32;
-		format[i] = c;
+		if (format[i] >= 'A' && format[i] <= 'Z')
+			format[i] -= 32;
 	}
 
 	printf(format);
 	exit(0);
+	
+	return 0;
 }

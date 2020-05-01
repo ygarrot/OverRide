@@ -1,30 +1,36 @@
+#include <stdio.h>
+#include <string.h>
+#include <stdlib.h>
+
 int main()
 {
-	char *filename; // rbp-0x110
-	char *ptr     ; // rbp-0xa0
-	char *format  ; // rbp-0x70
-	size_t var_ch ; // rbp-0xc
-	file *stream  ; // rbp-0x8
+	size_t	var_ch;        // rbp-0xc
+	size_t	size;
+	FILE	*stream;       // rbp-0x8
+	char	filename[112]; // rbp-0x110
+	char	ptr[48];       // rbp-0xa0
+	char	format[100];   // rbp-0x70
 
-
-	[...]
+	bzero(&filename, sizeof(filename));
+	bzero(&ptr,      sizeof(ptr));
+	bzero(&format,   sizeof(format));
 
 	stream = fopen("/home/users/level03/.pass", "r");
 
-	if (stream == NULL)
+	if ( stream == NULL )
 	{
-		fwrite("ERROR: failed to open password file\n", 1, 36, STDERR);
+		fwrite("ERROR: failed to open password file\n", 1, 36, stderr);
 		exit(1);
 	}
 
-	var_ch = fread(ptr, 1, 41, stream)
-	size_t size = strcspn(ptr, "\n");
-	ptr[size - 0xa0] = 0;
+	var_ch    = fread(ptr, 1, 41, stream);
+	size      = strcspn(ptr, "\n");
+	ptr[size] = '\0';
 
-	if (var_ch != 41)
+	if ( var_ch != 41 )
 	{
-		fwrite("ERROR: failed to read password file\n", 1, 36, STDERR);
-		fwrite("ERROR: failed to read password file\n", 1, 36, STDERR);
+		fwrite("ERROR: failed to read password file\n", 1, 36, stderr);
+		fwrite("ERROR: failed to read password file\n", 1, 36, stderr);
 		exit(1);
 	}
 
@@ -32,23 +38,24 @@ int main()
 	puts("===== [ Secure Access System v1.0 ] =====");
 	puts("/***************************************\\");
 	puts("| You must login to access this system. |");
-	puts(\\**************************************/);
-	printf(--[ Username: ");
-	fgets(format, 100, STDIN);
+	puts("\\**************************************/");
+
+	printf("--[ Username: ");
+	fgets(format, 100, stdin);
 	printf("--[ Password: ");
-	fgets(filename, 100, STDIN);
+	fgets(filename, 100, stdin);
 
-	size_t size = strcspn(format, "\n");
-
-	rbp[size - 0x110] = 0;
+	size           = strcspn(format, "\n");
+	filename[size] = '\0';
 	puts("*****************************************");
 
-	if (strncmp(filename, TODO, 41) != NULL)
+	if ( strncmp(filename, ptr, 41) != 0)
 	{
-			printf(format);
-			puts(" does not have access!");
-			exit(1);
+		printf(format); // exploit printf
+		puts(" does not have access!");
+		exit(1);
 	}
+
 	printf("Greetings, %s!\n", format);
 	system("/bin/sh");
 	return 0;

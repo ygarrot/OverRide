@@ -1,6 +1,3 @@
 On remarque qu'on peut dump la stack avec le printf, et que le flag se trouve sur la stack a l'offset +- 22.
 On dump la stack et on reverse l'ascii
 ez
-
-
-

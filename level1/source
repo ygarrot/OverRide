@@ -1,37 +1,39 @@
-verify_user_name()
+#include <stdio.h>
+#include <string.h>
+
+char *user_name;
+
+int verify_user_name()
 {
 	puts("verifying username....\n");
-	if (edx == "dat_wil") //obj.a_user_name
-		
+
+	return strcmp(user_name, "admin");
 }
 
-verify_user_pass(char *str)
+int verify_user_pass(char *str)
 {
-	
-	if (str == "admin")
-		
+	return strcmp(str, "admin");
 }
 
-int main()
+int main(int argc, const char *argv[])
 {
-	int local_8h_2 // ebp-0x8
-	int local_4h   // esp+0x4  
-	int local_8h   // esp+0x8  
-	int local_1ch  // esp+0x1c
-	int local_5ch  // esp+0x5c
+	char *str;
 
 	puts("********* ADMIN LOGIN PROMPT *********");
 	printf("Enter Username: ");
-	fgets(obj.a_username, 256, STDIN);
-	if (verify_user_name() != 0)
+	fgets(user_name, 256, stdin);
+
+	if ( verify_user_name() != 0 )
 	{
 		puts("nope, incorrect username...\n");
 		return 1;
 	}
+
 	puts("Enter Password: ");
-	fgets(local_1ch, 100, STDIN);
-	if (verify_user_pass(local_1ch) != 0)
-		return 0;
+	fgets(str, 100, stdin);
+
+	if ( verify_user_pass(str) != 0 )
+		return 0; //TODO check that in binary
 	puts("nope, incorrect password...\n");
 	return 1;
 }
