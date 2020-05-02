@@ -1,106 +1,87 @@
+#include <stdio.h>
+#include <unistd.h>
+#include <string.h>
 
 int clear_stdin()
 {
-	char c = getchar()
-	if (c == 255)
+	if ( getchar() == 255 )
 		clear_stdin();
-	return
+	return 0;
 }
 
-int get_unum()
+unsigned int get_unum()
 {
 	unsigned int val;
 
-	fflush(STDOUT);
-	scanf("%u", val);
+	fflush(stdout);
+	scanf("%u", &val);
 	clear_stdin();
 	return val;
 }
 
-int read_number(int arg)
+int read_number(int *tab)
 {
+	unsigned int tmp;
+	unsigned int val;
+
 	printf(" Index: ");
 
-	int tmp, val = get_unum();
-	val =<< 2;
-	val += arg;
-	printf(" Number at data[%u] is %u\n", val, tmp);
+	tmp = get_unum();
+	val = get_unum();
+	printf(" Number at data[%u] is %u\n", tab[ val << 2 ], tmp);
 	return 0;
 }
 
-int store_number(int arg)
+int store_number(int *arg)
 {
-	int local_10h; //@ ebp-0x10
-	int local_ch;  //@ ebp-0xc  
+	unsigned int number;
+	unsigned int index;
+	unsigned int val;
 
-	local_10h = 0;
-	local_ch = 0;
 	printf(" Number: ");
-	local_10h = get_unum();
+	number = get_unum();
 	printf(" Index: ");
-	*local_ch = get_unum();
+	index = get_unum();
 
-	count = *local_ch;
-	data = (0xaaaaaaab * count) >> 1;
-	edx = (data * 3) - count;
+	val = ( ( 0xaaaaaaab * index ) & ~( 0xffffffff ) ) >> 1;
+	val = ( val * 3 ) - index;
 	
-	if (edx == 0 || (local_10h >> 24) == 183)
+	if ( val == 0 || ( number >> 24) == 183)
 	{
 		puts(" *** ERROR! ***");
 		puts("   This index is reserved for wil!");
 		puts(" *** ERROR! ***");
 		return 1;
 	}
-	tmp = local_ch << 2;
-	tmp = arg;
-	*local_10h = 0;
+	arg[ index << 2 ] = number;
 	return 0;
 }
 
-int main()
+int main(int argc, const char *argv[])
 {
-	int local_4h   ; //  @ esp+0x4
-	int local_8h   ; //  @ esp+0x8
-	int local_14h  ; //  @ esp+0x14
-	int local_18h  ; //  @ esp+0x18
-	int local_1ch  ; //  @ esp+0x1c
-	int local_24h  ; //  @ esp+0x24
-	int local_1b4h = 0; //  @ esp+0x1b4
-	int local_1b8h = 0; //  @ esp+0x1b8
-	int local_1bch = 0; //  @ esp+0x1bc
-	int local_1c0h = 0; //  @ esp+0x1c0
-	int local_1c4h = 0; //  @ esp+0x1c4
-	int local_1c8h = 0; //  @ esp+0x1c8
-	int local_1cch ; //  @ esp+0x1cc
+	char	*cmd;
+	int		*ret;
+	int		tab[400];
 
-	bzero(&local_1ch, sizeof(local_1ch));
-	bzero(&local_18h, sizeof(local_18h);
+	bzero(&cmd, sizeof(cmd));
+	bzero(&tab, sizeof(tab));
 
-	if (local_1ch != 0)
+	puts("----------------------------------------------------\n  Welcome to wil's crappy number storage service!   \n----------------------------------------------------\n Commands:                                      \n    store - store a number into the data storage    \n  ");
+
+	printf("Input command: ");
+	while ( fgets(cmd, 440, stdin) )
 	{
-		puts("----------------------------------------------------\n  Welcome to wil's crappy number storage service!   \n----------------------------------------------------\n Commands:                                      \n    store - store a number into the data storage    \n  ");
-	}
-
-	printf("Input command: ");	
-	fgets(local_1b8h, 440, STDIN);
-	while (true)
-	{
-		switch (local_18h) {
-			case "store":
-				local_1b4h = store_number();
-				break;
-			case "read":
-				local_1b4h = read_number();
-				break;
-			case "exit":
-				return 0;
-			default:
-				
-		}
-		if (*local_1b4h == 0)
-			printf(" Failed to do %s command\n", local_4h);
+		if ( cmd == "store" )
+			*ret = store_number(tab);
+		if ( cmd == "read" )
+			*ret = read_number(tab);
+		if ( cmd == "exit" )
+			return 0;
+		if ( *ret == 0)
+			printf(" Failed to do %s command\n", cmd);
 		else 
-			printf(" Completed %s command successfully\n", local_4h);
+			printf(" Completed %s command successfully\n", cmd);
+		bzero(&cmd, sizeof(cmd));
 	}
 
 	return 1;
