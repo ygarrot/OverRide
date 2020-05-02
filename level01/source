@@ -7,7 +7,7 @@ int verify_user_name()
 {
 	puts("verifying username....\n");
 
-	return strcmp(user_name, "admin");
+	return strcmp(user_name, "dat_wil");
 }
 
 int verify_user_pass(char *str)
@@ -32,8 +32,7 @@ int main(int argc, const char *argv[])
 	puts("Enter Password: ");
 	fgets(str, 100, stdin);
 
-	if ( verify_user_pass(str) != 0 )
-		return 0; //TODO check that in binary
+	verify_user_pass(str);
 	puts("nope, incorrect password...\n");
 	return 1;
 }
