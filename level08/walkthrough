@@ -1,2 +1,11 @@
-level08@OverRide:/tmp$ mkdir -p backups/home/users/level09
-level08@OverRide:/tmp$ ~/level08 /home/users/level09/.pass
+mkdir -p backups/home/users/level09
+~/level08 /home/users/level09/.pass
+
+
+We see in the source that the program create a copy of the file given in argument.
+Since we do not have permissions on "/home/users/level08/backup" we have to go on /tmp
+and then we create those directories: backups/home/users/level09, because the program concatenate 
+the name given in parameter (/home/users/level09/.pass) with "./backups"
+
+The result is that the file /home/users/level09/.pass will be copy at
+/tmp/backups/home/users/level09/.pass

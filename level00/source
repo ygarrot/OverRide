@@ -16,6 +16,7 @@ int main(int argc, const char *argv[])
 		return 1;
 	}
 	puts("\nAuthenticated!");
+	system("/bin/sh")
 
 	return 0;
 }

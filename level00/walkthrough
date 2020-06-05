@@ -1,4 +1,6 @@
-look at the source:
+In the source we a condition that check if the variable filled with scanf is 
+5276, a system("/bin/sh") is executed
+
 ./level00
 5276
 cat ../level01/.pass

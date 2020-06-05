@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <string.h>
 
-char *user_name;
+char user_name[256];
 
 int verify_user_name()
 {
@@ -17,7 +17,7 @@ int verify_user_pass(char *str)
 
 int main(int argc, const char *argv[])
 {
-	char *str;
+	char str[64];
 
 	puts("********* ADMIN LOGIN PROMPT *********");
 	printf("Enter Username: ");
