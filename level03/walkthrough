@@ -2,18 +2,16 @@ Most of jmp go on decrypt(srand())
 We do not want to base our exploit on rand
 So there is another condition for calling decrypt
 
-0x1337d00d - password (integer) must be below 0x15 (21)
+0x1337d00d - input must be below 0x15 (21)
+0x1337d00d -> 322424845
 
 The result of this substraction will be powered by two and 0x80489f0 will be addedd
-
 We then jump to this address and go on decrypt
 
->>> 0x1337d00d
-322424845
-
+There is a script in resources to get the pass, it will basically bruteforce the 21 possibility
+After running the script we knows that giving 322424827 is the right input to access a new shell as level04
 322424845 - 322424827 = 18 ( < 21)
 
-There is a script in resources to get the pass
 sh get_pass.sh
 ~/level03
 322424827
