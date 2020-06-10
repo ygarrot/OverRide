@@ -2,6 +2,8 @@ We see in the source that a buffer can be overflowed, the probleme here is that 
 system("/bin/sh") since we struggle having a control over the process.
 So we decide to execute a script that will echo the pass in a file
 
+We used space a "nop slide" but for shell command.
+
 ```
 level04@OverRide:~$ cat /tmp/getflag.sh
 #!/bin/sh

@@ -1,7 +1,8 @@
 This level is about a printf string exploit
-We though that using a shellcode in the environment was the simpliest way to access a shell as level06
+We thought that using a shellcode in the environment
+was the simpliest way to access a shell as level06
 
-We overwrite the exit address in the plt entry with the printf string exploit.
+We want to overwrite the exit address in the plt entry with the printf string exploit.
 We encountered a problem: the access is too long (64 bits).
 So we have to write the memory address with two printf argument
 
