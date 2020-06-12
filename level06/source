@@ -32,7 +32,7 @@ int auth(char *s1, int32_t arg_ch)
 		if ( s1[i] > 31)
 			return 1;
 		elem1 = s1[i] ^ tmp * 0x88233b2b & ~( 0xffffffff );
-		s1[i] -= ((((s1[i] ^ tmp - elem1) >> 1) + elem1) >> 10) * 1337;
+		tmp += ((elem1 - 0x88233b2b) >> 1) + 0x88233b2b * 0x539;
 	}
 	if ( arg_ch == tmp )
 		return 0;
