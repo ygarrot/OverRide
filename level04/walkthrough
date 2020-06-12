@@ -1,4 +1,4 @@
-We see in the source that a buffer can be overflowed, the probleme here is that we cannot use a 
+We see in the source that a buffer can be overflowed, the problem here is that we cannot use a 
 system("/bin/sh") since we struggle having a control over the process.
 So we decide to execute a script that will echo the pass in a file
 
