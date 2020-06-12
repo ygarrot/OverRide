@@ -1,4 +1,29 @@
-Pur reverse, il suffit de recup le hash le 4eme lettre et le mettre dans le scanf
+Nous constatons d'apres la source que le programme prend en argument une string, et un entier. Il va ensuite comparer un le hash de la string avec cet entier.
+Nous pouvons donc, lors de la comparaison finale regarder le hash de notre string, pour l'envoyer lors d'une deuxieme tentative.
 
-(python -c 'print("ABCDEFGH")'; python -c 'print("6233825")';cat) | ./level06
+> gdb ./level06
+> b *0x080487ba //ptrace
+> b *0x08048866 //comparaison finale
+> r
+
+Nous entrons notre string, et un nombre au hasard.
+
+> ABCDEF
+> 123456789
+
+Dans un premier temps, nous devons esquiver le check ptrace qui nous empeche de debugger le programme, en remettant son retour a 0.
+
+> set $eax=0
+
+Ensuite nous allons directement, apres le hash de la string, a la comparaison entre le hash et le nombre que nous avons donne.
+
+> c
+
+Il suffit alors de recuperer ce qu'il y a dans la variable de hash :
+
+> x/d $ebp-16
+
+Nous pouvons maintenant quitter gdb et lancer le programme avec la meme string et le contenu de $ebp-16 recupere dans gdb :
+
+(python -c 'print("ABCDEF")'; python -c 'print("6231554")') | ./level06
 
